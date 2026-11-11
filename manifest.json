@@ -1,0 +1,10 @@
+{
+  "name": "CIRCUIT",
+  "short_name": "CIRCUIT",
+  "description": "CIRCUIT - BD Esports Tournament App",
+  "start_url": "/arena-ghost/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#FF7A00",
+  "icons": [{"src": "https://zancriminal321-ops.【entity-github¦canonical_name=GitHub】.io/arena-ghost/icon.png","sizes": "512x512","type": "image/png","purpose": "any maskable"}]
+}

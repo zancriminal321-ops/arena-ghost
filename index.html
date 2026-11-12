@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="bn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CIRCUIT SPORTS - Free Fire Tournament</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>body{background:#0a0a0f;color:white;font-family:system-ui} .card{background:#16161f;border:1px solid #2a2a3a;border-radius:16px} .btn{background:linear-gradient(90deg,#9333EA,#06B6D4);border-radius:12px;padding:10px 16px;font-weight:700} .navbtn{flex:1;text-align:center;padding:10px 0;font-size:12px;color:#aaa} .navbtn.active{color:white;background:#1e1e2e;border-radius:12px}</style>
+</head><body class="max-w-md mx-auto pb-24">
+<div class="p-4 flex justify-between items-center sticky top-0 bg-[#0a0a0f] z-10"><div><h1 class="text-2xl font-black"><span class="text-purple-500">CIRCUIT</span> <span class="text-cyan-400">SPORTS</span></h1><p class="text-xs text-gray-400">Free Fire Tournament Platform</p></div><button onclick="toggleLang()" id="langBtn" class="bg-white/10 px-3 py-1 rounded-full text-sm">English</button></div>
+<div id="app" class="p-4"></div>
+<div class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-[#12121a] border-t border-white/10 flex px-2 py-2">
+<button class="navbtn active" onclick="show('home',this)">🏠<br>Home</button>
+<button class="navbtn" onclick="show('tour',this)">🎮<br>Tournament</button>
+<button class="navbtn" onclick="show('my',this)">⚔️<br>My Matches</button>
+<button class="navbtn" onclick="show('lead',this)">🏆<br>Leaderboard</button>
+<button class="navbtn" onclick="show('profile',this)">👤<br>Profile</button>
+</div>
+<script>
+let lang='bn'; let joined=JSON.parse(localStorage.getItem('cs_joined')||'[]');
+let tours=[
+{id:1,name:'Solo Showdown',mode:'Solo',map:'Bermuda',fee:0,prize:10000,slots:48,filled:32,status:'LIVE',time:'Aaj Raat 8:00'},
+{id:2,name:'Squad Champions Cup',mode:'Squad',map:'Purgatory',fee:50,prize:25000,slots:30,filled:18,status:'UPCOMING',time:'Kal Raat 9:00'},
+{id:3,name:'Duo Rush',mode:'Duo',map:'Kalahari',fee:30,prize:8000,slots:40,filled:25,status:'UPCOMING',time:'Aaj Raat 10:00'},
+{id:4,name:'Weekend Mega Battle',mode:'Squad',map:'Bermuda',fee:100,prize:50000,slots:48,filled:41,status:'UPCOMING',time:'Robibar Raat 9:00'},
+{id:5,name:'Daily Free Battle',mode:'Solo',map:'Bermuda',fee:0,prize:5000,slots:48,filled:12,status:'LIVE',time:'Aaj Bikal 5:00'},
+{id:6,name:'Pro Legends Cup',mode:'Squad',map:'Purgatory',fee:200,prize:100000,slots:24,filled:20,status:'COMPLETED',time:'Ses Hoye Gese'},
+];
+let leaders=[{n:'Sakib Gaming',k:342,w:24,e:2450},{n:'Rafi FF',k:310,w:21,e:2100},{n:'Tanvir YT',k:298,w:19,e:1950},{n:'Mehedi Boss',k:275,w:17,e:1700},{n:'Arif Pro',k:260,w:15,e:1500}];
+function t(bn,en){return lang==='bn'?bn:en}
+function toggleLang(){lang=lang==='bn'?'en':'bn';document.getElementById('langBtn').innerText=lang==='bn'?'English':'বাংলা';render()}
+function join(id){if(joined.includes(id)){alert(t('Tumi agei join korso!','Already joined!'));return} let tr=tours.find(x=>x.id===id); if(tr.fee>0){ if(confirm(t('Paid tournament! Payment Pending thakbe. Admin verify korle confirm hobe. Join korba?','Paid tournament! Payment will be Pending. Admin will verify. Join?'))){joined.push(id);localStorage.setItem('cs_joined',JSON.stringify(joined));alert(t('Join Request Pathano Hoise! Payment Pending','Join Request Sent! Payment Pending'));render()}} else {joined.push(id);localStorage.setItem('cs_joined',JSON.stringify(joined));alert(t('Join hoye gese!','Joined Successfully!'));render()}}
+function card(tr){let pct=Math.round(tr.filled/tr.slots*100);return `<div class="card p-4 mb-3"><div class="flex justify-between"><h3 class="font-bold text-lg">${tr.name}</h3><span class="text-xs px-2 py-1 rounded-full ${tr.status==='LIVE'?'bg-green-500':tr.status==='UPCOMING'?'bg-purple-600':'bg-gray-600'}">${tr.status}</span></div><p class="text-sm text-gray-400">${tr.mode} • ${tr.map} • ${tr.time}</p><div class="flex gap-3 my-2 text-sm"><span>💰 ${t('Prize','Prize')} ৳${tr.prize.toLocaleString()}</span><span>🎟️ ${tr.fee===0?t('FREE','FREE'):tr.fee+'৳'}</span></div><div class="w-full bg-white/10 h-2 rounded-full"><div class="h-2 rounded-full bg-gradient-to-r from-purple-500 to-cyan-400" style="width:${pct}%"></div></div><p class="text-xs my-1">${tr.filled}/${tr.slots} Slots • ${pct}%</p>${joined.includes(tr.id)?`<p class="text-green-400 font-bold">✅ ${t('Tumi Join Korso - Room ID: CS-${100+tr.id} • Pass: 1234','You Joined - Room ID: CS-${100+tr.id} • Pass: 1234')}</p>`:`<button class="btn w-full mt-2" onclick="join(${tr.id})">${t('টুর্নামেন্টে যোগ দিন','Join Tournament')}</button>`}</div>`}
+function render(){let el=document.getElementById('app');let view=window._view||'home';let h='';
+if(view==='home'){h=`<h2 class="text-xl font-bold mb-1">${t('হ্যালো, SAKIB! 👋','Hello, SAKIB! 👋')}</h2><p class="text-gray-400 text-sm mb-3">${t('প্রস্তুত তো আজকের যুদ্ধের জন্য?','Ready for today\\'s battle?')}</p><div class="grid grid-cols-3 gap-2 mb-4"><div class="card p-3 text-center"><p class="text-xs">Rank</p><b>#128</b></div><div class="card p-3 text-center"><p class="text-xs">Earnings</p><b>৳2,450</b></div><div class="card p-3 text-center"><p class="text-xs">Wins</p><b>24</b></div></div><h3 class="font-bold mb-2">${t('সামনে যেসব টুর্নামেন্ট রয়েছে','Upcoming Tournaments')}</h3>`+tours.map(card).join('')}
+else if(view==='tour'){h=`<h2 class="text-xl font-bold mb-3">${t('সব টুর্নামেন্ট','All Tournaments')}</h2>`+tours.map(card).join('')}
+else if(view==='my'){let mine=tours.filter(x=>joined.includes(x.id));h=`<h2 class="text-xl font-bold mb-3">${t('আমার ম্যাচগুলো','My Matches')}</h2>`+(mine.length?mine.map(card).join(''):`<div class="card p-6 text-center">${t('এই মুহূর্তে কোনো টুর্নামেন্ট নেই','No tournaments yet')}<br><button class="btn mt-3" onclick="show('tour')">${t('টুর্নামেন্ট দেখুন','View Tournaments')}</button></div>`)}
+else if(view==='lead'){h=`<h2 class="text-xl font-bold mb-3">🏆 ${t('লিডারবোর্ড','Leaderboard')}</h2>`+leaders.map((l,i)=>`<div class="card p-3 mb-2 flex justify-between"><span><b>#${i+1}</b> ${l.n}</span><span>🔪 ${l.k} • 🏆 ${l.w} • ৳${l.e}</span></div>`).join('')}
+else if(view==='profile'){h=`<div class="card p-5 text-center"><div class="w-20 h-20 mx-auto bg-gradient-to-r from-purple-500 to-cyan-400 rounded-full flex items-center justify-center text-3xl font-black">S</div><h2 class="text-xl font-bold mt-2">SAKIB</h2><p class="text-gray-400 text-sm">Free Fire UID: 2345678901 • IGN: SAKIB FF</p><div class="grid grid-cols-3 gap-2 mt-4"><div><b>68</b><p class="text-xs">Matches</p></div><div><b>24</b><p class="text-xs">Wins</p></div><div><b>342</b><p class="text-xs">Kills</p></div></div><div class="mt-4 text-left"><p class="flex justify-between text-sm"><span>Level: Gold</span><span>XP 1250 / 2000</span></p><div class="w-full bg-white/10 h-2 rounded-full mt-1"><div class="h-2 bg-purple-500 rounded-full" style="width:62%"></div></div></div><p class="mt-3 text-sm text-green-400">✅ Firebase Connected - circuit-sports</p></div>`}
+el.innerHTML=h}
+function show(v,btn){window._view=v;document.querySelectorAll('.navbtn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');render()}
+render()
+</script></body></html>

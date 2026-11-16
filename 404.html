@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>CIRCUIT SPORTS</title>
+<script>
+// GitHub Pages: jekono path / query / hash ke app-er main page-e ferot pathao
+var base = "/arena-ghost/";
+var q = window.location.search || "";
+var h = window.location.hash || "";
+// Jodi already base-te thaki, tahole index.html load hobe, redirect loop korbo na
+if (window.location.pathname === base || window.location.pathname === base + "index.html") {
+  // kichu korbo na, index.html nijei handle korbe
+} else {
+  window.location.replace(base + q + h);
+}
+</script>
+</head>
+<body>
+<p style="text-align:center;font-family:sans-serif;margin-top:40px;">CIRCUIT SPORTS - Loading...</p>
+<script>
+// Fallback: jodi uporer redirect na hoy, 1 sec pore index-e jao
+setTimeout(function(){
+  if (window.location.pathname !== base && window.location.pathname !== base + "index.html") {
+    window.location.replace(base + (window.location.search||"") + (window.location.hash||""));
+  }
+}, 1000);
+</script>
+</body>
+</html>

@@ -2726,7 +2726,7 @@ window.CIRCUIT_openPasswordReset = function(presetEmail, isInApp){
         if(code.length<6){msg.textContent=T("৬ সংখ্যার কোড দিন","Enter 6-digit code");return;}
         // OTP EXPIRY: 5 MIN
         try{ let stv=getOtpState(_email); if(stv.blockedUntil && Date.now()<stv.blockedUntil && stv.count>=4){ msg.textContent=T("১ ঘণ্টা পর আবার চেষ্টা করুন ","You are blocked for 1 hour. ")+fmtHour(stv.blockedUntil-Date.now()); return; } if(stv.lastSend && (Date.now()-stv.lastSend)>5*60*1000){ msg.textContent=T("কোডের মেয়াদ শেষ","Code expired (5 minutes). Resend code."); return; } }catch(e){}
-        msg.textContent=T("কোড মিলানো হচ্ছে...","Verifying code...");
+        msg.textContent=T("কোড মিলানো হচ্ছে.................","Verifying code...");
         try{
           let key=window.CIRCUIT_ANON_KEY||"sb_publishable_BOFwjcWi-A88gaoaSV9ZpA_ml7O8_NA";
           let r=await fetch("https://zqsfpeotodpxhmpkdvgc.supabase.co/auth/v1/verify",{method:"POST",headers:{"Content-Type":"application/json","apikey":key,"Authorization":"Bearer "+key},body:JSON.stringify({email:_email,token:code,type:"recovery"})});
